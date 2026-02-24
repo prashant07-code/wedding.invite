@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ADARSH & KHOLI | Wedding Invitation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{font-family:'Poppins',sans-serif;background:#4b0d1e;color:white;overflow-x:hidden;}
+h1,h2{font-family:'Playfair Display',serif;}
+section{padding:80px 20px;text-align:center;position:relative;z-index:2;}
+
+.gold{color:#d4af37;}
+
+.btn{
+padding:12px 25px;
+border:2px solid #d4af37;
+background:transparent;
+color:#d4af37;
+cursor:pointer;
+border-radius:30px;
+transition:.3s;
+}
+.btn:hover{background:#d4af37;color:black;}
+
+.hero{
+position:relative;
+height:100vh;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero video{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+}
+
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+z-index:-1;
+}
+
+.card{
+border:1px solid #d4af37;
+padding:20px;
+border-radius:10px;
+margin:15px;
+transition:.3s;
+}
+.card:hover{transform:scale(1.05);}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;}
+
+input,select,textarea{
+padding:10px;
+width:100%;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+footer{padding:40px;font-size:14px;}
+
+/* Lightbox */
+.gallery img{
+width:250px;
+margin:10px;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+}
+.gallery img:hover{transform:scale(1.05);}
+
+.lightbox{
+display:none;
+position:fixed;
+z-index:1000;
+background:rgba(0,0,0,0.9);
+width:100%;
+height:100%;
+text-align:center;
+}
+.lightbox img{
+max-width:80%;
+margin-top:5%;
+}
+.close{
+position:absolute;
+top:20px;
+right:40px;
+font-size:40px;
+color:white;
+cursor:pointer;
+}
+
+/* Floating petals */
+.petals{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+background-image:url('petal.png');
+background-repeat:repeat;
+animation:fall 25s linear infinite;
+opacity:0.3;
+z-index:1;
+}
+@keyframes fall{
+from{background-position:0 -1000px;}
+to{background-position:0 1000px;}
+}
+
+#particles-js{
+position:fixed;
+width:100%;
+height:100%;
+z-index:0;
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+<div class="petals"></div>
+
+<audio id="bgMusic" src="awara.mp3.mp3" loop></audio>
+
+<!-- HERO -->
+<section class="hero">
+<video autoplay muted loop>
+<source src="wedding-video.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<h1 style="font-size:60px;">ADARSH & KHOLI</h1>
+<p class="gold" style="font-size:22px;margin-top:10px;">Save The Date</p>
+<p>28 FEB 2026</p>
+
+<button onclick="enterSite()" class="btn" style="margin-top:20px;">Enter Invitation</button>
+</section>
+
+<!-- COUNTDOWN -->
+<section>
+<h2 class="gold">Countdown</h2>
+<h1 id="countdown"></h1>
+</section>
+
+<!-- EVENTS -->
+<section>
+<h2 class="gold">Wedding Events</h2>
+<div class="grid">
+<div class="card">Mehendi<br>25 FEB 2026</div>
+<div class="card">Haldi<br>26 FEB 2026</div>
+<div class="card">Sangeet<br>27 FEB 2026</div>
+<div class="card">Wedding<br>28 FEB 2026</div>
+</div>
+</section>
+
+<!-- GALLERY -->
+<section>
+<h2 class="gold">Gallery</h2>
+<div class="gallery">
+<img src="img1.jpg" onclick="openLightbox(this.src)">
+<img src="img2.jpg" onclick="openLightbox(this.src)">
+<img src="img3.jpg" onclick="openLightbox(this.src)">
+</div>
+</section>
+
+<div id="lightbox" class="lightbox">
+<span onclick="closeLightbox()" class="close">&times;</span>
+<img id="lightbox-img">
+</div>
+
+<!-- VENUE -->
+<section>
+<h2 class="gold">Venue</h2>
+<p>Royal Palace Banquet, Lucknow</p>
+<iframe src="https://www.google.com/maps?q=Lucknow&output=embed"
+width="100%" height="300" style="border:0;margin-top:20px;"></iframe>
+</section>
+
+<!-- RSVP -->
+<section>
+<h2 class="gold">RSVP</h2>
+<form action="https://formspree.io/f/maqdaovl" method="POST">
+<input type="text" name="name" placeholder="Your Name" required>
+<select name="attending">
+<option>Will Attend</option>
+<option>Will Not Attend</option>
+</select>
+<textarea name="message" placeholder="Message"></textarea>
+<button type="submit" class="btn">Submit</button>
+</form>
+</section>
+
+<footer>
+With Love ❤️ Adarsh & Kholi
+</footer>
+
+<script>
+// Countdown
+const weddingDate = new Date("Feb 28, 2026 18:00:00").getTime();
+setInterval(function(){
+const now = new Date().getTime();
+const distance = weddingDate - now;
+
+const d = Math.floor(distance/(1000*60*60*24));
+const h = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const m = Math.floor((distance%(1000*60*60))/(1000*60));
+const s = Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML =
+d+"d "+h+"h "+m+"m "+s+"s ";
+},1000);
+
+// Music Auto Play After Enter
+function enterSite(){
+document.getElementById("bgMusic").play();
+window.scrollTo({top:window.innerHeight,behavior:'smooth'});
+}
+
+// Lightbox
+function openLightbox(src){
+document.getElementById("lightbox").style.display="block";
+document.getElementById("lightbox-img").src=src;
+}
+function closeLightbox(){
+document.getElementById("lightbox").style.display="none";
+}
+
+// Golden Sparkles
+tsParticles.load("particles-js",{
+particles:{
+number:{value:40},
+color:{value:"#d4af37"},
+size:{value:3},
+move:{enable:true,speed:1},
+opacity:{value:0.8}
+}
+});
+</script>
+
+</body>
+</html>
